@@ -12,6 +12,17 @@ Example invocations:
 
 The exact invocation syntax depends on the host environment. It may be a mention, slash command, workflow picker, skill name, or plain text. Treat the workflow name and task details as the important signal.
 
+## Workflow Root
+
+Resolve helper script paths relative to this `AGENT.md` file.
+
+Common locations:
+
+- Source repository: `workflow/`
+- Installed by `npx propagate-env install`: `.propagate-env/workflow/`
+
+Examples below use `<workflow-root>` for that directory.
+
 ## Core Safety Rule
 
 Each target branch must start from its own original branch or freshest safe remote-tracking ref. Prepare every target branch independently.
@@ -81,7 +92,7 @@ Setup examples:
 When setup is triggered:
 
 1. Confirm the current directory is inside a Git repository.
-   - You may run `node workflow/scripts/inspect-repo.mjs` when this workflow repo is available.
+   - You may run `node <workflow-root>/scripts/inspect-repo.mjs` when this workflow is available.
    - Completion criterion: you know the repository root or have reported that the current directory is not a Git repository.
 2. Inspect `git remote -v`.
    - Completion criterion: you have the remote list or have reported that the repo has no remotes.
@@ -103,7 +114,7 @@ When setup is triggered:
 8. Store the resulting memory.
    - Prefer repo-local `.propagate-env.json` when the facts are safe to keep with the repo.
    - Prefer user-global `~/.config/propagate-env/memory.json` for private or personal facts.
-   - You may run `node workflow/scripts/write-memory.mjs` after the required facts are known.
+   - You may run `node <workflow-root>/scripts/write-memory.mjs` after the required facts are known.
    - Completion criterion: memory contains provider, remote, target branches, and temp prefix.
 9. Summarize what was remembered in plain English.
    - Include provider, remote, target branches, temp prefix, memory location, and branch notes.
@@ -125,7 +136,7 @@ When propagation is triggered:
    - For working tree changes, inspect `git diff`.
    - For one commit, inspect `git show --stat <sha>` and `git show --patch <sha>`.
    - For multiple commits, preserve the user-provided order and inspect each commit.
-   - You may run `node workflow/scripts/inspect-source.mjs` as a non-destructive helper.
+   - You may run `node <workflow-root>/scripts/inspect-source.mjs` as a non-destructive helper.
    - Completion criterion: source mode, commits if any, changed files, and diff summary are known.
 2. Inspect Git state before mutating branches:
    - `git status --short`
@@ -140,7 +151,7 @@ When propagation is triggered:
 4. Fetch remote refs when credentials and network access allow it.
    - If fetch fails, continue only with existing local refs and record that limitation.
 5. Plan the per-target work.
-   - You may run `node workflow/scripts/plan-propagation.mjs` to generate deterministic temp branch names, base refs, pending URLs, and push commands.
+   - You may run `node <workflow-root>/scripts/plan-propagation.mjs` to generate deterministic temp branch names, base refs, pending URLs, and push commands.
    - Treat generated URLs as pending until the matching source branch is pushed.
 6. For each target branch independently:
    - Choose the freshest safe base ref for that target.
@@ -225,11 +236,11 @@ When the user asks to clean up temp branches, or accepts the post-PR cleanup pro
    - If unclear, ask which scope the user wants.
 3. List matching local temporary branches.
 4. List matching remote temporary branches when possible.
-   - You may run `node workflow/scripts/cleanup-temp-branches.mjs --prefix <prefix>` for a dry-run candidate list.
+   - You may run `node <workflow-root>/scripts/cleanup-temp-branches.mjs --prefix <prefix>` for a dry-run candidate list.
 5. Confirm exactly what will be deleted.
    - Use: `I found these temp branches matching <prefix>. Should I delete the listed local branches, remote branches, or both?`
 6. Delete only confirmed branches matching the configured temporary prefix.
-   - You may run `node workflow/scripts/cleanup-temp-branches.mjs --prefix <prefix> --scope <scope> --execute --confirm-prefix <prefix>` after confirmation.
+   - You may run `node <workflow-root>/scripts/cleanup-temp-branches.mjs --prefix <prefix> --scope <scope> --execute --confirm-prefix <prefix>` after confirmation.
 7. Report what was removed and what could not be removed.
 8. Record cleanup evidence in the progress log when this repository is being improved.
 

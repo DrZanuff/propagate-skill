@@ -6,7 +6,23 @@ It is designed for developers and maintainers who need to propagate a staged dif
 
 ## How To Use
 
-Give your agent or automation tool access to this repository, then invoke the workflow by name in the style supported by that environment.
+Install the workflow into any Git repository with `npx`, or give your agent direct access to this repository.
+
+After npm publication:
+
+```bash
+npx propagate-env install
+```
+
+Before npm publication, install from GitHub:
+
+```bash
+npx github:DrZanuff/propagate-skill install
+```
+
+The installer writes `.propagate-env/workflow/`, `.propagate-env.json`, `PROPAGATE_ENV.md`, and `AGENTS.md` when no `AGENTS.md` already exists.
+
+Daily use is still plain English. Invoke the workflow by name in the style supported by your agent environment.
 
 Example requests:
 
@@ -20,7 +36,9 @@ propagate-env commit abc1234 to the configured target branches.
 propagate-env clean up the temp branches from the PRs you just prepared.
 ```
 
-Some environments may use `@propagate-env`, slash commands, workflow pickers, or skill files. The exact invocation mechanism is not important. The workflow name plus task details are the portable interface.
+Some environments may use `@propagate-env`, slash commands, workflow pickers, agent rule files, or plain text. The exact invocation mechanism is not important. The workflow name plus task details are the portable interface.
+
+The `npx` command is for installation and diagnostics, not for normal propagation actions.
 
 ## Repository Layout
 
@@ -32,11 +50,12 @@ workflow/references/evaluation.md Baseline and evaluation guidance.
 workflow/memory/schema.json       Memory schema with repo identity fields.
 workflow/scripts/                 Deterministic helper scripts.
 test/run-tests.mjs                Helper script tests.
+bin/propagate-env.mjs             npx installer and diagnostics entrypoint.
+package.json                      npm package metadata.
 phases/                           Planning notes by phase.
 REPRODUCTION_GUIDE.md             Clean-environment reproduction guide.
 IMPLEMENTATION_PLAN.md            Checklist tracker.
 IMPROVEMENT_CHANGELOG.md          Evidence and iteration log.
-SKILL.md                          Compatibility entrypoint for skill-based harnesses.
 ```
 
 ## Reproduction Guide
@@ -55,7 +74,7 @@ Observed versions during the current evaluation pass:
 Run the current deterministic tests:
 
 ```bash
-node test/run-tests.mjs
+npm test
 ```
 
 Expected output:
@@ -64,7 +83,13 @@ Expected output:
 All tests passed.
 ```
 
-These tests cover SSH/HTTPS provider detection, normalized remote identity fields, provider-specific PR URL generation, slash branch encoding, nested GitLab groups, setup memory writing, memory reading, stale memory removal, repo inspection, source inspection, non-destructive propagation planning, and temp branch cleanup safety. End-to-end Git fixture tests are planned for a later phase.
+These tests cover SSH/HTTPS provider detection, normalized remote identity fields, provider-specific PR URL generation, slash branch encoding, nested GitLab groups, setup memory writing, memory reading, stale memory removal, repo inspection, source inspection, non-destructive propagation planning, temp branch cleanup safety, and the `npx` installer.
+
+Check the package contents before publishing:
+
+```bash
+npm run pack:check
+```
 
 ## Setup Memory
 

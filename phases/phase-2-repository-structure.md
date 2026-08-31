@@ -1,10 +1,10 @@
 # Phase 2: Repository Structure
 
-Purpose: make the workflow private-for-now but ready to become public, portable, agent-friendly, and reproducible.
+Purpose: make the workflow public, portable, agent-friendly, and reproducible.
 
 ## Current Decision
 
-The repository stays private during development. The Phase 2 repository work should prepare a clean public-ready structure without actually requiring publication yet.
+The repository began private during development. It is now structured for public use and npm installation.
 
 ## Repository Shape
 
@@ -22,10 +22,10 @@ propagate-skill/
 ├── README.md
 ├── IMPROVEMENT_CHANGELOG.md
 ├── IMPLEMENTATION_PLAN.md
-└── SKILL.md
+└── package.json
 ```
 
-`workflow/AGENT.md` is the portable source of truth. `SKILL.md` is only a compatibility entrypoint for environments that discover reusable workflows through a skill file.
+`workflow/AGENT.md` is the portable source of truth. Installed repositories get a `PROPAGATE_ENV.md` pointer so agents can find the workflow without relying on a tool-specific skill format.
 
 ## Helper Scripts
 
@@ -74,4 +74,4 @@ Before publication, verify:
 - [x] README documents usage and reproduction.
 - [x] Improvement changelog exists.
 - [x] Example workflow invocations are documented.
-- [ ] Repository has been made public.
+- [x] Repository has been made public.

@@ -4,7 +4,7 @@ This checklist maps the hackathon PDF requirements to this repository.
 
 ## 01 Complete Solution Code And Improvement Changelog
 
-Status: mostly ready, pending final baseline numbers and public release.
+Status: mostly ready, pending final baseline numbers, final video, and npm publication.
 
 Required:
 
@@ -19,8 +19,12 @@ Required:
 - [x] Failed experiments are kept.
 - [x] Main failure mode documented.
 - [x] Hot take documented.
+- [x] License added.
+- [x] Public GitHub repository exists.
+- [x] `npx` installer prepared.
 - [ ] Final baseline measurements filled in.
-- [ ] Repository made public.
+- [x] Initial public release changes pushed.
+- [ ] npm package published, if submitting the `npx` path as live.
 
 Current files:
 
@@ -42,6 +46,7 @@ Required:
 - [x] Required data documented.
 - [x] Expected output documented.
 - [x] Relevant versions documented.
+- [x] Package dry-run command documented.
 - [ ] Approximate runtime filled in after final recording.
 - [ ] Approximate cost filled in after final recording.
 
@@ -97,8 +102,8 @@ Current file:
 - Run the prepared live recording prompt and fill Trajectory 6.
 - Record video and confirm it is no longer than 5 minutes.
 - Decide whether to clean remaining demo temp branches.
-- Make the repository public when ready.
-- Add license if the public repository requires one.
+- Push the Phase 10 release commit.
+- Publish `propagate-env` to npm if the submission needs `npx propagate-env install` live from the registry.
 
 ## Main Failure Mode
 

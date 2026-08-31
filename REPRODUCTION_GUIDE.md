@@ -11,19 +11,40 @@ This guide is written for someone starting from a clean environment.
 
 Local helper tests do not require network access after the repository is cloned.
 
+## Install Into A Target Repository
+
+After npm publication:
+
+```bash
+npx propagate-env install
+```
+
+Before npm publication, install from GitHub:
+
+```bash
+npx github:DrZanuff/propagate-skill install
+```
+
+Expected installed files:
+
+- `.propagate-env/workflow/`
+- `.propagate-env.json`
+- `PROPAGATE_ENV.md`
+- `AGENTS.md`, only when one does not already exist
+
+Daily propagation remains a plain-English agent request, not a user-facing CLI command.
+
 ## Clone The Solution
 
 ```bash
-git clone <solution-repo-url> propagate-env
+git clone https://github.com/DrZanuff/propagate-skill.git propagate-env
 cd propagate-env
 ```
-
-The repository is private during development. Replace `<solution-repo-url>` with the final public URL after release.
 
 ## Run Deterministic Evaluation Tests
 
 ```bash
-node test/run-tests.mjs
+npm test
 ```
 
 Expected output:
@@ -43,6 +64,14 @@ Approximate cost:
 ```text
 $0 for local helper tests.
 ```
+
+## Check Package Contents
+
+```bash
+npm run pack:check
+```
+
+Expected output includes `bin/propagate-env.mjs`, `workflow/`, `README.md`, `REPRODUCTION_GUIDE.md`, `IMPROVEMENT_CHANGELOG.md`, and `LICENSE`.
 
 ## Reproduce The GitHub Fixture
 

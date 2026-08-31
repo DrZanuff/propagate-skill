@@ -6,7 +6,7 @@ Purpose: remove hardcoded organization-specific assumptions while keeping the us
 
 - Workflow name: `propagate-env`.
 - Primary portable instruction entrypoint: `workflow/AGENT.md`.
-- Compatibility entrypoint: `SKILL.md`, for harnesses that invoke reusable workflows through a skill file.
+- Installed pointer: `PROPAGATE_ENV.md`, for repositories that install the workflow with `npx`.
 - User invocation style: workflow name plus task details, such as `propagate-env the current staged changes with prefix temp-TICKET-123-short-description`.
 
 ## Design Principles
@@ -44,7 +44,7 @@ Those are handled in later phases.
 ## Phase 1 Review Checklist
 
 - [x] `workflow/AGENT.md` is the portable source of truth.
-- [x] `SKILL.md` no longer contains private provider, repo, or branch assumptions.
+- [x] Public instructions no longer depend on a tool-specific skill file.
 - [x] Invocation examples use `propagate-env`.
 - [x] The workflow uses configured targets instead of fixed targets.
 - [x] The workflow keeps independent branch bases as a hard safety rule.

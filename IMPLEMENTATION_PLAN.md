@@ -8,7 +8,7 @@ The public repository may include helper scripts, but they are implementation de
 
 ## Success Criteria
 
-- [ ] Public repository created with no private organization details.
+- [x] Public repository created with no private organization details.
 - [ ] Workflow can be used by different agents or tools without product-specific assumptions.
 - [ ] User can trigger the workflow with plain-English requests.
 - [ ] Agent can initialize repo-specific setup through conversation or documented setup steps.
@@ -58,7 +58,7 @@ Purpose: make the workflow public, portable, agent-friendly, and reproducible.
 
 Detailed notes: [phases/phase-2-repository-structure.md](phases/phase-2-repository-structure.md)
 
-- [ ] Create public repo. Deferred: repository remains private for now.
+- [x] Create public repo.
 - [x] Add portable workflow instructions at the root or under a clear `workflow/` folder.
 - [x] Add helper scripts only where deterministic behavior is useful.
 - [x] Add references under `workflow/references/`.
@@ -278,15 +278,18 @@ Evaluation table:
 
 Purpose: make the result usable from a clean environment.
 
-- [ ] Remove private hostnames, branches, and company-specific assumptions.
-- [ ] Confirm no credentials or private data are committed.
-- [ ] Add license.
-- [ ] Add usage instructions for humans and agents.
-- [ ] Add example plain-English prompts.
-- [ ] Add clean-environment reproduction guide.
-- [ ] Create public GitHub repository.
-- [ ] Push initial public version.
-- [ ] Optionally add packaging later if a specific agent/tool ecosystem benefits from it.
+- [x] Remove private hostnames, branches, and company-specific assumptions.
+- [x] Confirm no credentials or private data are committed.
+- [x] Add license.
+- [x] Add usage instructions for humans and agents.
+- [x] Add example plain-English prompts.
+- [x] Add clean-environment reproduction guide.
+- [x] Create public GitHub repository.
+- [x] Push initial public version.
+- [x] Optionally add packaging later if a specific agent/tool ecosystem benefits from it.
+- [x] Prepare npm package metadata for `npx` installation.
+- [x] Add `npx` installer that writes agent-readable workflow files.
+- [x] Add installer tests.
 
 ## Progress Log
 
@@ -303,15 +306,16 @@ Use this table while working.
 | 2026-08-31 | Phase 7 | Added cleanup workflow docs, dry-run-first cleanup helper, and local/remote cleanup tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review cleanup workflow and proceed to test repositories. |
 | 2026-08-31 | Phase 8 | Created and exercised GitHub public stress-test repo with target branches, clean propagation, conflict propagation, push-unavailable simulation, and cleanup scenario. | `phases/phase-8-test-repositories.md` | Passed for GitHub scope; GitLab/Gitea and second-agent runs deferred. | Review GitHub evidence and decide whether to open/merge or clean temp branches. |
 | 2026-08-31 | Phase 9 | Added evaluation docs, final deliverables checklist, recording runbook, baseline script, video talk track, representative trajectories, and a prepared recording source branch. | `node test/run-tests.mjs`, `recording/`, `deliverables/final-deliverables-checklist.md`, `scenario/recording-add-build-label` | Documentation ready for recording; baseline measurements and final video still pending. | Record baseline and solution runs, then fill final numbers. |
+| 2026-08-31 | Phase 10 | Added npm package metadata, `npx` installer, license, package tests, public release docs, and install instructions. | `npm test`, `npm run pack:check`, public GitHub page | Package is ready for npm publication after final review. | Publish to npm when ready. |
 
 ## Open Decisions
 
-- [ ] Final workflow name.
-- [ ] Memory location: repo-local, user-global, or both.
-- [ ] Whether helper scripts should be shell, Node, Python, or mixed.
-- [ ] Whether cleanup should delete remote branches by default after explicit user confirmation.
-- [ ] Whether provider detection should use network/API checks or local Git remote parsing only.
-- [ ] Whether the public repo should expose only portable instructions or also optional adapters for specific tools.
+- [x] Final workflow name: `propagate-env`.
+- [x] Memory location: repo-local by default, user-global for private facts.
+- [x] Helper scripts use Node.js.
+- [x] Cleanup supports remote deletion only after explicit confirmation.
+- [x] Provider detection uses local Git remote parsing plus memory/user confirmation.
+- [x] Public repo exposes portable instructions plus optional deterministic helpers and an `npx` installer.
 
 ## Final Deliverables
 

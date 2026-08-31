@@ -83,6 +83,40 @@ assert.equal(githubHttps.provider, "github");
 assert.equal(githubHttps.protocol, "https");
 assert.equal(githubHttps.repoPath, "example-org/example-repo");
 
+const binHelp = nodeScript("bin/propagate-env.mjs", ["--help"]);
+assert.match(binHelp, /propagate-env/);
+assert.match(binHelp, /propagate-env install/);
+assert.match(binHelp, /Daily use remains plain English/);
+
+const installDir = fs.mkdtempSync(path.join(os.tmpdir(), "propagate-env-install-"));
+const installDryRun = JSON.parse(
+  nodeScript("bin/propagate-env.mjs", ["install", "--target", installDir, "--dry-run"])
+);
+assert.equal(installDryRun.dryRun, true);
+assert.equal(fs.existsSync(path.join(installDir, "PROPAGATE_ENV.md")), false);
+assert.equal(installDryRun.written.includes("PROPAGATE_ENV.md"), true);
+
+const installResult = JSON.parse(
+  nodeScript("bin/propagate-env.mjs", ["install", "--target", installDir])
+);
+assert.equal(installResult.dryRun, false);
+assert.equal(fs.existsSync(path.join(installDir, "PROPAGATE_ENV.md")), true);
+assert.equal(fs.existsSync(path.join(installDir, "AGENTS.md")), true);
+assert.equal(fs.existsSync(path.join(installDir, ".propagate-env.json")), true);
+assert.equal(
+  fs.existsSync(path.join(installDir, ".propagate-env", "workflow", "AGENT.md")),
+  true
+);
+assert.deepEqual(
+  JSON.parse(fs.readFileSync(path.join(installDir, ".propagate-env.json"), "utf8")),
+  { version: 1, repos: {} }
+);
+
+const reinstallResultRaw = nodeScript("bin/propagate-env.mjs", ["install", "--target", installDir]);
+const reinstallResult = JSON.parse(reinstallResultRaw.slice(0, reinstallResultRaw.indexOf("\n\n")));
+assert.equal(reinstallResult.skipped.includes("AGENTS.md"), true);
+assert.match(reinstallResultRaw, /AGENTS.md already exists/);
+
 assert.equal(
   detect("ssh://git@gitea.example.com/team/project.git").provider,
   "gitea"
@@ -444,5 +478,11 @@ const inspectResult = JSON.parse(
 assert.equal(inspectResult.insideWorkTree, true);
 assert.equal(typeof inspectResult.remoteVerbose, "string");
 assert.equal(typeof inspectResult.needsProviderQuestion, "boolean");
+
+const doctorResult = JSON.parse(
+  nodeScript("bin/propagate-env.mjs", ["doctor", "--target", root])
+);
+assert.equal(doctorResult.insideWorkTree, true);
+assert.equal(typeof doctorResult.needsProviderQuestion, "boolean");
 
 console.log("All tests passed.");

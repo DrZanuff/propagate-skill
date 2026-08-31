@@ -1,0 +1,47 @@
+{
+  "name": "propagate-env",
+  "version": "0.1.0",
+  "description": "Agent-agnostic workflow for propagating Git changes across long-lived target branches.",
+  "type": "module",
+  "bin": {
+    "propagate-env": "bin/propagate-env.mjs"
+  },
+  "files": [
+    "bin/",
+    "workflow/",
+    "test/",
+    "phases/",
+    "recording/",
+    "deliverables/",
+    "README.md",
+    "REPRODUCTION_GUIDE.md",
+    "IMPROVEMENT_CHANGELOG.md",
+    "IMPLEMENTATION_PLAN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/run-tests.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrZanuff/propagate-skill.git"
+  },
+  "keywords": [
+    "agent-workflow",
+    "git",
+    "branch-propagation",
+    "github",
+    "gitlab",
+    "gitea"
+  ],
+  "author": "Ricardo Zanuff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrZanuff/propagate-skill/issues"
+  },
+  "homepage": "https://github.com/DrZanuff/propagate-skill#readme"
+}
