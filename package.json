@@ -9,14 +9,7 @@
   "files": [
     "bin/",
     "workflow/",
-    "test/",
-    "phases/",
-    "recording/",
-    "deliverables/",
     "README.md",
-    "REPRODUCTION_GUIDE.md",
-    "IMPROVEMENT_CHANGELOG.md",
-    "IMPLEMENTATION_PLAN.md",
     "LICENSE"
   ],
   "scripts": {
