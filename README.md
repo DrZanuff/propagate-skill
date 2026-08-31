@@ -4,7 +4,6 @@
 
 It is designed for developers and maintainers who need to propagate a staged diff, working tree diff, commit, or ordered set of commits into environment, release, customer, regional, or deployment-track branches without accidentally stacking branches or leaking branch-specific differences.
 
-
 ## How To Use
 
 Give your agent or automation tool access to this repository, then invoke the workflow by name in the style supported by that environment.
@@ -34,6 +33,7 @@ workflow/memory/schema.json       Memory schema with repo identity fields.
 workflow/scripts/                 Deterministic helper scripts.
 test/run-tests.mjs                Helper script tests.
 phases/                           Planning notes by phase.
+REPRODUCTION_GUIDE.md             Clean-environment reproduction guide.
 IMPLEMENTATION_PLAN.md            Checklist tracker.
 IMPROVEMENT_CHANGELOG.md          Evidence and iteration log.
 SKILL.md                          Compatibility entrypoint for skill-based harnesses.
@@ -45,6 +45,12 @@ Requirements:
 
 - Git.
 - Node.js 18 or newer for helper script tests.
+
+Observed versions during the current evaluation pass:
+
+- Git `2.43.0`
+- Node.js `v22.18.0`
+- npm `10.9.3`
 
 Run the current deterministic tests:
 
@@ -93,4 +99,3 @@ The current public GitHub fixture is:
 ```text
 https://github.com/DrZanuff/propagate-stress-test
 ```
-

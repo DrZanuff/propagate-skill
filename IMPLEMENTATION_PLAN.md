@@ -24,7 +24,7 @@ The public repository may include helper scripts, but they are implementation de
 
 Purpose: define the problem clearly and create a fair comparison point.
 
-Detailed notes: [phases/phase-0-scope-and-baseline.md](/mnt/extra/Git/propagate-skill/phases/phase-0-scope-and-baseline.md)
+Detailed notes: [phases/phase-0-scope-and-baseline.md](phases/phase-0-scope-and-baseline.md)
 
 - [x] Define the intended user.
 - [x] Describe the current bottleneck.
@@ -39,7 +39,7 @@ Detailed notes: [phases/phase-0-scope-and-baseline.md](/mnt/extra/Git/propagate-
 
 Purpose: remove hardcoded organization-specific assumptions while keeping the useful workflow discipline.
 
-Detailed notes: [phases/phase-1-generic-workflow-design.md](/mnt/extra/Git/propagate-skill/phases/phase-1-generic-workflow-design.md)
+Detailed notes: [phases/phase-1-generic-workflow-design.md](phases/phase-1-generic-workflow-design.md)
 
 - [x] Name the generic workflow.
 - [x] Define the portable instruction entrypoint, for example `AGENT.md`, `WORKFLOW.md`, or `propagate-branches.md`.
@@ -56,7 +56,7 @@ Detailed notes: [phases/phase-1-generic-workflow-design.md](/mnt/extra/Git/propa
 
 Purpose: make the workflow public, portable, agent-friendly, and reproducible.
 
-Detailed notes: [phases/phase-2-repository-structure.md](/mnt/extra/Git/propagate-skill/phases/phase-2-repository-structure.md)
+Detailed notes: [phases/phase-2-repository-structure.md](phases/phase-2-repository-structure.md)
 
 - [ ] Create public repo. Deferred: repository remains private for now.
 - [x] Add portable workflow instructions at the root or under a clear `workflow/` folder.
@@ -100,7 +100,7 @@ propagate-branches/
 
 Purpose: let any repo configure the workflow through normal agent conversation, without making the user run setup commands manually.
 
-Detailed notes: [phases/phase-3-plain-english-setup-flow.md](/mnt/extra/Git/propagate-skill/phases/phase-3-plain-english-setup-flow.md)
+Detailed notes: [phases/phase-3-plain-english-setup-flow.md](phases/phase-3-plain-english-setup-flow.md)
 
 - [x] Define the setup trigger phrases in the portable workflow instructions.
 - [x] Verify current directory is inside a Git repository.
@@ -126,7 +126,7 @@ Example user requests:
 
 Purpose: support GitHub, GitLab, and Gitea safely through agent-executed helper logic.
 
-Detailed notes: [phases/phase-4-provider-detection-and-url-generation.md](/mnt/extra/Git/propagate-skill/phases/phase-4-provider-detection-and-url-generation.md)
+Detailed notes: [phases/phase-4-provider-detection-and-url-generation.md](phases/phase-4-provider-detection-and-url-generation.md)
 
 - [x] Parse SSH remotes.
 - [x] Parse HTTPS remotes.
@@ -147,7 +147,7 @@ Detailed notes: [phases/phase-4-provider-detection-and-url-generation.md](/mnt/e
 
 Purpose: preserve repo-specific knowledge without baking it into the public workflow.
 
-Detailed notes: [phases/phase-5-memory-model.md](/mnt/extra/Git/propagate-skill/phases/phase-5-memory-model.md)
+Detailed notes: [phases/phase-5-memory-model.md](phases/phase-5-memory-model.md)
 
 - [x] Decide memory location.
 - [x] Define JSON schema.
@@ -192,7 +192,7 @@ Example memory shape:
 
 Purpose: generalize the current instructions into a safe branch propagation procedure.
 
-Detailed notes: [phases/phase-6-propagation-workflow.md](/mnt/extra/Git/propagate-skill/phases/phase-6-propagation-workflow.md)
+Detailed notes: [phases/phase-6-propagation-workflow.md](phases/phase-6-propagation-workflow.md)
 
 - [x] Trigger from workflow-named requests such as "propagate-env this commit" or "propagate-env the current staged changes with prefix `temp-TICKET-123-short-description`."
 - [x] Identify source changes from commit, commit range, or working tree.
@@ -214,7 +214,7 @@ Detailed notes: [phases/phase-6-propagation-workflow.md](/mnt/extra/Git/propagat
 
 Purpose: make temporary branch cleanup safe, explicit, and plain-English driven.
 
-Detailed notes: [phases/phase-7-cleanup-workflow.md](/mnt/extra/Git/propagate-skill/phases/phase-7-cleanup-workflow.md)
+Detailed notes: [phases/phase-7-cleanup-workflow.md](phases/phase-7-cleanup-workflow.md)
 
 - [x] Trigger from user requests such as "remove the temp branches" or from the post-PR cleanup prompt.
 - [x] Agent lists matching local temp branches.
@@ -230,7 +230,7 @@ Detailed notes: [phases/phase-7-cleanup-workflow.md](/mnt/extra/Git/propagate-sk
 
 Purpose: prove the workflow works before testing against real public remotes.
 
-Detailed notes: [phases/phase-8-test-repositories.md](/mnt/extra/Git/propagate-skill/phases/phase-8-test-repositories.md)
+Detailed notes: [phases/phase-8-test-repositories.md](phases/phase-8-test-repositories.md)
 
 - [x] Create fixture repo for GitHub-style remote.
 - [ ] Create fixture repo for GitLab-style remote. Deferred: skipped for now.
@@ -249,27 +249,29 @@ Detailed notes: [phases/phase-8-test-repositories.md](/mnt/extra/Git/propagate-s
 
 Purpose: satisfy the hackathon requirement to show measured improvement.
 
-- [ ] Create `IMPROVEMENT_CHANGELOG.md`.
-- [ ] Add baseline entry.
-- [ ] Add one entry for each meaningful iteration.
-- [ ] Record what changed.
-- [ ] Record why it changed.
-- [ ] Record evidence.
-- [ ] Record decision or learning.
-- [ ] Keep failed experiments in the changelog.
-- [ ] Produce final comparison table.
-- [ ] Save representative agent trajectories.
+Detailed notes: [phases/phase-9-evaluation-and-evidence.md](phases/phase-9-evaluation-and-evidence.md)
+
+- [x] Create `IMPROVEMENT_CHANGELOG.md`.
+- [x] Add baseline entry.
+- [x] Add one entry for each meaningful iteration.
+- [x] Record what changed.
+- [x] Record why it changed.
+- [x] Record evidence.
+- [x] Record decision or learning.
+- [x] Keep failed experiments in the changelog.
+- [x] Produce final comparison table.
+- [x] Save representative agent trajectories.
 
 Evaluation table:
 
 ```markdown
-| Metric | Baseline | Agent Solution | Change |
-| --- | ---: | ---: | ---: |
-| Successful propagations | TBD | TBD | TBD |
-| Base-branch mistakes | TBD | TBD | TBD |
-| Correct PR URLs | TBD | TBD | TBD |
-| Human time per task | TBD | TBD | TBD |
-| User-facing manual operations | TBD | TBD | TBD |
+| Metric | Baseline Prompt | `propagate-env` Workflow | Current Evidence |
+| --- | ---: | ---: | --- |
+| Successful target propagations | Pending baseline run | 6/6 in Phase 8 | Clean and conflict GitHub scenarios each pushed to three targets. |
+| Base-branch mistakes | Pending baseline run | 0 observed | Every temp branch was based on its own target branch. |
+| Correct provider URLs | Pending baseline run | 6/6 in Phase 8 | Slash branch names were URL-encoded. |
+| Verification before push | Pending baseline run | 6/6 pushed branches verified | `npm test` passed before every Phase 8 push. |
+| Cleanup safety | Pending baseline run | Passed scoped cleanup | Only confirmed prefix branches were deleted. |
 ```
 
 ## Phase 10: Public Release
@@ -300,6 +302,7 @@ Use this table while working.
 | 2026-08-31 | Phase 6 | Added propagation workflow docs, source inspection helper, planning helper, and tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review propagation workflow and proceed to cleanup workflow. |
 | 2026-08-31 | Phase 7 | Added cleanup workflow docs, dry-run-first cleanup helper, and local/remote cleanup tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review cleanup workflow and proceed to test repositories. |
 | 2026-08-31 | Phase 8 | Created and exercised GitHub public stress-test repo with target branches, clean propagation, conflict propagation, push-unavailable simulation, and cleanup scenario. | `phases/phase-8-test-repositories.md` | Passed for GitHub scope; GitLab/Gitea and second-agent runs deferred. | Review GitHub evidence and decide whether to open/merge or clean temp branches. |
+| 2026-08-31 | Phase 9 | Added evaluation docs, final deliverables checklist, recording runbook, baseline script, video talk track, representative trajectories, and a prepared recording source branch. | `node test/run-tests.mjs`, `recording/`, `deliverables/final-deliverables-checklist.md`, `scenario/recording-add-build-label` | Documentation ready for recording; baseline measurements and final video still pending. | Record baseline and solution runs, then fill final numbers. |
 
 ## Open Decisions
 

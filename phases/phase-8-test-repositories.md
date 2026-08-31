@@ -250,6 +250,7 @@ Relevant branches remaining on GitHub after Phase 8:
 - `customer/dev`
 - `scenario/clean-add-audit-helper`
 - `scenario/conflict-update-greeting`
+- `scenario/recording-add-build-label`
 - `temp-PHASE8-clean-main-add-audit-helper`
 - `temp-PHASE8-clean-release-dev-add-audit-helper`
 - `temp-PHASE8-clean-customer-dev-add-audit-helper`
@@ -258,6 +259,22 @@ Relevant branches remaining on GitHub after Phase 8:
 - `temp-PHASE8-conflict-customer-dev-update-greeting`
 
 The dedicated cleanup scenario branches were removed.
+
+## Recording Scenario Prepared During Phase 9
+
+Source branch:
+
+```text
+scenario/recording-add-build-label
+```
+
+Source commit:
+
+```text
+421f9fb Add recording build label scenario
+```
+
+This branch adds `src/build-label.mjs` and a small assertion. It is intentionally not propagated yet, so it can be used for a live recording of the workflow.
 
 ## Deferred
 
