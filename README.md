@@ -4,7 +4,6 @@
 
 It is designed for developers and maintainers who need to propagate a staged diff, working tree diff, commit, or ordered set of commits into environment, release, customer, regional, or deployment-track branches without accidentally stacking branches or leaking branch-specific differences.
 
-The repository is private during development, but the content is structured so it can become public after review.
 
 ## How To Use
 
