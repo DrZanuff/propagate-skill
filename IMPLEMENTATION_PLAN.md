@@ -230,18 +230,20 @@ Detailed notes: [phases/phase-7-cleanup-workflow.md](/mnt/extra/Git/propagate-sk
 
 Purpose: prove the workflow works before testing against real public remotes.
 
-- [ ] Create fixture repo for GitHub-style remote.
-- [ ] Create fixture repo for GitLab-style remote.
-- [ ] Create fixture repo for Gitea-style remote.
-- [ ] Create fixture repo with unknown remote.
-- [ ] Create target branches with intentional differences.
-- [ ] Create clean cherry-pick scenario.
-- [ ] Create conflict scenario.
-- [ ] Create push-unavailable scenario.
-- [ ] Create temp cleanup scenario.
-- [ ] Save relevant agent/tool outputs as evidence.
-- [ ] Test with plain-English prompts, not user-facing CLI commands.
-- [ ] Run the same tests with at least two different agent/tool environments when possible.
+Detailed notes: [phases/phase-8-test-repositories.md](/mnt/extra/Git/propagate-skill/phases/phase-8-test-repositories.md)
+
+- [x] Create fixture repo for GitHub-style remote.
+- [ ] Create fixture repo for GitLab-style remote. Deferred: skipped for now.
+- [ ] Create fixture repo for Gitea-style remote. Deferred: skipped for now.
+- [x] Create fixture repo with unknown or unavailable remote behavior.
+- [x] Create target branches with intentional differences.
+- [x] Create clean cherry-pick scenario.
+- [x] Create conflict scenario.
+- [x] Create push-unavailable scenario.
+- [x] Create temp cleanup scenario.
+- [x] Save relevant agent/tool outputs as evidence.
+- [x] Test with plain-English prompts, not user-facing CLI commands.
+- [ ] Run the same tests with at least two different agent/tool environments when possible. Deferred.
 
 ## Phase 9: Evaluation And Evidence
 
@@ -297,6 +299,7 @@ Use this table while working.
 | 2026-08-31 | Phase 5 | Added memory model docs, schema identity fields, read/write/remove helpers, and memory tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review memory behavior and proceed to propagation workflow. |
 | 2026-08-31 | Phase 6 | Added propagation workflow docs, source inspection helper, planning helper, and tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review propagation workflow and proceed to cleanup workflow. |
 | 2026-08-31 | Phase 7 | Added cleanup workflow docs, dry-run-first cleanup helper, and local/remote cleanup tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review cleanup workflow and proceed to test repositories. |
+| 2026-08-31 | Phase 8 | Created and exercised GitHub public stress-test repo with target branches, clean propagation, conflict propagation, push-unavailable simulation, and cleanup scenario. | `phases/phase-8-test-repositories.md` | Passed for GitHub scope; GitLab/Gitea and second-agent runs deferred. | Review GitHub evidence and decide whether to open/merge or clean temp branches. |
 
 ## Open Decisions
 

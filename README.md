@@ -97,3 +97,18 @@ This is the main behavior the workflow protects.
 - Phase 5 complete: memory model, schema, and read/write/remove helpers documented and tested.
 - Phase 6 complete: propagation workflow documented with source inspection and non-destructive planning helpers.
 - Phase 7 complete: cleanup workflow documented with dry-run-first local and remote branch cleanup helper.
+- Phase 8 complete for GitHub scope: public stress-test repo created and exercised; GitLab/Gitea are deferred.
+
+## GitHub Stress-Test Repository
+
+The current public GitHub fixture is:
+
+```text
+https://github.com/DrZanuff/propagate-stress-test
+```
+
+Phase 8 evidence is documented in:
+
+```text
+phases/phase-8-test-repositories.md
+```
