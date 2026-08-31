@@ -13,6 +13,7 @@ Use this workflow for requests like:
 
 - `propagate-env the current staged changes with prefix temp-TICKET-123-short-description`
 - `propagate-env commit abc1234 to the configured target branches`
+- `propagate-env set up this repo for branch propagation`
 - `propagate-env remember that this repo targets release/dev, customer/dev, and main`
 - `propagate-env clean up the temp branches from the PRs you just prepared`
 

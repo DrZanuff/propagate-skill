@@ -6,6 +6,7 @@ Example invocations:
 
 - `propagate-env the current staged changes with prefix temp-TICKET-123-short-description`
 - `propagate-env commit abc1234 to the configured target branches`
+- `propagate-env set up this repo for branch propagation`
 - `propagate-env remember that this repo targets release/dev, customer/dev, and main`
 - `propagate-env clean up the temp branches from the PRs you just prepared`
 
@@ -56,44 +57,103 @@ Memory may include:
 
 If memory is missing, ask only for the facts needed to continue. If the user provides target branches, provider selection, or branch notes, record them in the chosen memory location when the environment allows file edits.
 
+Read [workflow/references/memory.md](references/memory.md) when the user asks to inspect, update, create, or remove repo memory.
+
+Memory interaction examples:
+
+- `propagate-env what do you remember for this repo?`
+- `propagate-env update this repo to target release/dev and main`
+- `propagate-env remember customer/dev needs customer-specific config checks`
+- `propagate-env forget the memory for this repo`
+
 ## Setup Flow
 
-When the user asks to set up the workflow for a repo:
+Enter setup mode when the user invokes `propagate-env` with configure, set up, remember, target branch, provider, branch-note, or repo memory language.
+
+Setup examples:
+
+- `propagate-env set up this repo for branch propagation`
+- `propagate-env configure this repository`
+- `propagate-env remember that this repo targets release/dev, customer/dev, and main`
+- `propagate-env this repo is GitLab and targets release/dev and main`
+- `propagate-env for customer/dev, remember to preserve customer-specific config`
+
+When setup is triggered:
 
 1. Confirm the current directory is inside a Git repository.
+   - You may run `node workflow/scripts/inspect-repo.mjs` when this workflow repo is available.
+   - Completion criterion: you know the repository root or have reported that the current directory is not a Git repository.
 2. Inspect `git remote -v`.
-3. Detect the provider if possible.
+   - Completion criterion: you have the remote list or have reported that the repo has no remotes.
+3. Detect the provider from the selected remote URL when possible.
+   - Prefer exact detection over heuristics.
+   - Completion criterion: provider is `github`, `gitlab`, `gitea`, or unresolved.
 4. Ask the user for the provider if detection is uncertain.
-5. Ask for target branches.
-6. Ask for branch-specific notes only when useful.
-7. Store the resulting memory.
-8. Summarize what was remembered.
+   - Use: `I cannot confidently identify this Git host. Is this repository hosted on GitHub, GitLab, or Gitea?`
+   - Completion criterion: the user answered, or setup is paused waiting for that answer.
+5. Ask for target branches when they are not already known from memory or the user request.
+   - Use: `Which target branches should propagate-env remember for this repo?`
+   - Completion criterion: at least one target branch is known.
+6. Ask for branch-specific notes when useful.
+   - Use: `Any branch-specific notes I should remember, such as config, release, customer, or verification differences? You can say "none."`
+   - Completion criterion: notes were recorded or the user said there are none.
+7. Use `temp-` as the default temporary branch prefix.
+   - Ask about prefix only when the user requests a custom prefix or existing memory conflicts with the default.
+   - Completion criterion: the prefix starts with `temp-`.
+8. Store the resulting memory.
+   - Prefer repo-local `.propagate-env.json` when the facts are safe to keep with the repo.
+   - Prefer user-global `~/.config/propagate-env/memory.json` for private or personal facts.
+   - You may run `node workflow/scripts/write-memory.mjs` after the required facts are known.
+   - Completion criterion: memory contains provider, remote, target branches, and temp prefix.
+9. Summarize what was remembered in plain English.
+   - Include provider, remote, target branches, temp prefix, memory location, and branch notes.
+10. Record setup evidence in the project progress log when this repository is being improved.
 
 ## Propagation Flow
 
-1. Inspect Git state with:
+Enter propagation mode when the user invokes `propagate-env` with a source change and propagation intent, such as:
+
+- `propagate-env this commit`
+- `propagate-env commit abc1234 to the configured target branches`
+- `propagate-env the current staged changes with prefix temp-TICKET-123-short-description`
+- `propagate-env these commits abc1234 def5678 in order`
+
+When propagation is triggered:
+
+1. Identify the source change.
+   - For staged changes, inspect `git diff --staged`.
+   - For working tree changes, inspect `git diff`.
+   - For one commit, inspect `git show --stat <sha>` and `git show --patch <sha>`.
+   - For multiple commits, preserve the user-provided order and inspect each commit.
+   - You may run `node workflow/scripts/inspect-source.mjs` as a non-destructive helper.
+   - Completion criterion: source mode, commits if any, changed files, and diff summary are known.
+2. Inspect Git state before mutating branches:
    - `git status --short`
    - `git remote -v`
    - `git branch --show-current`
    - `git branch -vv`
-2. Identify the source change.
-   - For staged changes, inspect `git diff --staged`.
-   - For working tree changes, inspect `git diff`.
-   - For one commit, inspect `git show --stat <sha>` and `git show --patch <sha>`.
-   - For multiple commits, preserve the user-provided order.
-3. Resolve provider and target branches from memory or user input.
+   - Completion criterion: current branch, dirty state, remotes, and local branch tracking state are known.
+3. Resolve provider, remote, target branches, temp prefix, branch notes, and verification hints from memory or user input.
+   - Ask for target branches when memory does not provide them.
+   - Ask for provider when detection is uncertain.
+   - Completion criterion: every required input is known before branches are created.
 4. Fetch remote refs when credentials and network access allow it.
-5. For each target branch independently:
+   - If fetch fails, continue only with existing local refs and record that limitation.
+5. Plan the per-target work.
+   - You may run `node workflow/scripts/plan-propagation.mjs` to generate deterministic temp branch names, base refs, pending URLs, and push commands.
+   - Treat generated URLs as pending until the matching source branch is pushed.
+6. For each target branch independently:
    - Choose the freshest safe base ref for that target.
    - Create a temporary source branch from that base.
-   - Apply the complete source change.
-   - Preserve intentional differences in the target branch.
+   - Apply the complete source change to that temp branch only.
+   - Resolve conflicts while preserving intentional differences in the target branch.
    - Commit the adapted change.
    - Run verification appropriate to the changed files.
    - Push only if verification succeeds.
-   - Generate the correct provider-specific PR or compare URL after push succeeds.
-6. Report every branch separately.
-7. Ask whether the user wants temporary branches removed after PRs are raised or prepared.
+   - Generate or mark ready the correct provider-specific PR or compare URL after push succeeds.
+   - Record base ref, temp branch, verification, push, URL state, conflicts, and adaptations.
+7. Report every branch separately, including push-pending URLs when push is unavailable.
+8. Ask whether the user wants temporary branches removed after PRs are raised or prepared.
 
 ## Provider Handling
 
@@ -142,15 +202,36 @@ If there is no clear verification command, say so in the result and report the l
 
 Do not push a branch that fails verification unless the user explicitly approves pushing a known-failing branch.
 
+## Evidence To Record
+
+For each target branch, record:
+
+- Target branch.
+- Base ref used.
+- Temporary branch.
+- Source application method.
+- Conflict/adaptation notes.
+- Verification command and result.
+- Push result.
+- Ready or pending PR URL.
+
 ## Cleanup Flow
 
 When the user asks to clean up temp branches, or accepts the post-PR cleanup prompt:
 
-1. List matching local temporary branches.
-2. List matching remote temporary branches when possible.
-3. Confirm exactly what will be deleted.
-4. Delete only branches matching the configured temporary prefix.
-5. Report what was removed and what could not be removed.
+1. Resolve the cleanup prefix from the last propagation run, memory, or the user request.
+   - Completion criterion: the prefix is known and starts with `temp-`.
+2. Resolve cleanup scope: local, remote, or both.
+   - If unclear, ask which scope the user wants.
+3. List matching local temporary branches.
+4. List matching remote temporary branches when possible.
+   - You may run `node workflow/scripts/cleanup-temp-branches.mjs --prefix <prefix>` for a dry-run candidate list.
+5. Confirm exactly what will be deleted.
+   - Use: `I found these temp branches matching <prefix>. Should I delete the listed local branches, remote branches, or both?`
+6. Delete only confirmed branches matching the configured temporary prefix.
+   - You may run `node workflow/scripts/cleanup-temp-branches.mjs --prefix <prefix> --scope <scope> --execute --confirm-prefix <prefix>` after confirmation.
+7. Report what was removed and what could not be removed.
+8. Record cleanup evidence in the progress log when this repository is being improved.
 
 ## Final Response
 

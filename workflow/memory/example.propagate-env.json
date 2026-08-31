@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "repos": {
+    "https://github.com/example-org/example-repo": {
+      "provider": "github",
+      "remote": "origin",
+      "remoteUrl": "git@github.com:example-org/example-repo.git",
+      "repoRoot": "/path/to/example-repo",
+      "host": "github.com",
+      "repoPath": "example-org/example-repo",
+      "namespace": "example-org",
+      "owner": "example-org",
+      "repoName": "example-repo",
+      "targetBranches": ["release/dev", "customer/dev", "main"],
+      "tempPrefix": "temp-",
+      "branchNotes": {
+        "release/dev": "Preserve release-only configuration.",
+        "customer/dev": "Check customer-specific configuration before committing."
+      },
+      "verificationHints": ["Use package scripts when package.json changes."]
+    }
+  }
+}

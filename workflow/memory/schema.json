@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/propagate-env/memory.schema.json",
+  "title": "propagate-env memory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "repos"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "repos": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/repoMemory"
+      }
+    }
+  },
+  "$defs": {
+    "repoMemory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "remote", "targetBranches", "tempPrefix"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["github", "gitlab", "gitea", "unknown"]
+        },
+        "remote": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remoteUrl": {
+          "type": "string"
+        },
+        "repoRoot": {
+          "type": "string"
+        },
+        "host": {
+          "type": "string"
+        },
+        "repoPath": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "repoName": {
+          "type": "string"
+        },
+        "targetBranches": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "tempPrefix": {
+          "type": "string",
+          "pattern": "^temp-"
+        },
+        "branchNotes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "verificationHints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

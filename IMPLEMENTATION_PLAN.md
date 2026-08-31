@@ -56,15 +56,17 @@ Detailed notes: [phases/phase-1-generic-workflow-design.md](/mnt/extra/Git/propa
 
 Purpose: make the workflow public, portable, agent-friendly, and reproducible.
 
-- [ ] Create public repo.
-- [ ] Add portable workflow instructions at the root or under a clear `workflow/` folder.
-- [ ] Add helper scripts only where deterministic behavior is useful.
-- [ ] Add references under `workflow/references/`.
-- [ ] Add memory schema or template.
-- [ ] Add tests.
-- [ ] Add README with usage and reproduction guide.
-- [ ] Add improvement changelog.
-- [ ] Document example plain-English requests.
+Detailed notes: [phases/phase-2-repository-structure.md](/mnt/extra/Git/propagate-skill/phases/phase-2-repository-structure.md)
+
+- [ ] Create public repo. Deferred: repository remains private for now.
+- [x] Add portable workflow instructions at the root or under a clear `workflow/` folder.
+- [x] Add helper scripts only where deterministic behavior is useful.
+- [x] Add references under `workflow/references/`.
+- [x] Add memory schema or template.
+- [x] Add tests.
+- [x] Add README with usage and reproduction guide.
+- [x] Add improvement changelog.
+- [x] Document example plain-English requests.
 
 Suggested structure:
 
@@ -73,10 +75,15 @@ propagate-branches/
 ├── workflow/
 │   ├── AGENT.md
 │   ├── scripts/
-│   │   ├── detect_provider.sh
-│   │   ├── generate_pr_url.sh
-│   │   ├── read_memory.sh
-│   │   └── write_memory.sh
+│   │   ├── cleanup-temp-branches.mjs
+│   │   ├── detect-provider.mjs
+│   │   ├── generate-pr-url.mjs
+│   │   ├── inspect-repo.mjs
+│   │   ├── inspect-source.mjs
+│   │   ├── plan-propagation.mjs
+│   │   ├── read-memory.mjs
+│   │   ├── remove-memory.mjs
+│   │   └── write-memory.mjs
 │   ├── references/
 │   │   ├── providers.md
 │   │   ├── memory.md
@@ -93,17 +100,19 @@ propagate-branches/
 
 Purpose: let any repo configure the workflow through normal agent conversation, without making the user run setup commands manually.
 
-- [ ] Define the setup trigger phrases in the portable workflow instructions.
-- [ ] Verify current directory is inside a Git repository.
-- [ ] Read `git remote -v`.
-- [ ] Detect provider from remote URL.
-- [ ] Ask provider when detection is uncertain.
-- [ ] Ask for target branches when not already known.
-- [ ] Ask for branch-specific notes when useful.
-- [ ] Ask for temp branch prefix only if the default `temp-` is not acceptable.
-- [ ] Write memory/config.
-- [ ] Summarize setup in plain English.
-- [ ] Record setup evidence in the progress log.
+Detailed notes: [phases/phase-3-plain-english-setup-flow.md](/mnt/extra/Git/propagate-skill/phases/phase-3-plain-english-setup-flow.md)
+
+- [x] Define the setup trigger phrases in the portable workflow instructions.
+- [x] Verify current directory is inside a Git repository.
+- [x] Read `git remote -v`.
+- [x] Detect provider from remote URL.
+- [x] Ask provider when detection is uncertain.
+- [x] Ask for target branches when not already known.
+- [x] Ask for branch-specific notes when useful.
+- [x] Ask for temp branch prefix only if the default `temp-` is not acceptable.
+- [x] Write memory/config.
+- [x] Summarize setup in plain English.
+- [x] Record setup evidence in the progress log.
 
 Example user requests:
 
@@ -117,46 +126,57 @@ Example user requests:
 
 Purpose: support GitHub, GitLab, and Gitea safely through agent-executed helper logic.
 
-- [ ] Parse SSH remotes.
-- [ ] Parse HTTPS remotes.
-- [ ] Normalize host, owner/group, repo, provider, and remote name.
-- [ ] Detect GitHub.
-- [ ] Detect GitLab.
-- [ ] Detect Gitea when possible.
-- [ ] Fall back to user selection when provider is unknown.
-- [ ] URL-encode branch names containing `/`.
-- [ ] Generate GitHub compare/PR URLs.
-- [ ] Generate GitLab merge request URLs.
-- [ ] Generate Gitea compare/PR URLs.
-- [ ] Add tests for branch names with `/`.
-- [ ] Add tests for nested GitLab groups.
-- [ ] Document when the agent should ask instead of guessing.
+Detailed notes: [phases/phase-4-provider-detection-and-url-generation.md](/mnt/extra/Git/propagate-skill/phases/phase-4-provider-detection-and-url-generation.md)
+
+- [x] Parse SSH remotes.
+- [x] Parse HTTPS remotes.
+- [x] Normalize host, owner/group, repo, provider, and remote name.
+- [x] Detect GitHub.
+- [x] Detect GitLab.
+- [x] Detect Gitea when possible.
+- [x] Fall back to user selection when provider is unknown.
+- [x] URL-encode branch names containing `/`.
+- [x] Generate GitHub compare/PR URLs.
+- [x] Generate GitLab merge request URLs.
+- [x] Generate Gitea compare/PR URLs.
+- [x] Add tests for branch names with `/`.
+- [x] Add tests for nested GitLab groups.
+- [x] Document when the agent should ask instead of guessing.
 
 ## Phase 5: Memory Model
 
 Purpose: preserve repo-specific knowledge without baking it into the public workflow.
 
-- [ ] Decide memory location.
-- [ ] Define JSON schema.
-- [ ] Store repo path or remote identity.
-- [ ] Store provider.
-- [ ] Store remote name.
-- [ ] Store target branches.
-- [ ] Store temp branch prefix.
-- [ ] Store branch-specific notes.
-- [ ] Define plain-English memory inspection flow.
-- [ ] Define plain-English memory update flow.
-- [ ] Define plain-English stale memory removal flow.
-- [ ] Add helper scripts only if they reduce error-prone JSON editing.
+Detailed notes: [phases/phase-5-memory-model.md](/mnt/extra/Git/propagate-skill/phases/phase-5-memory-model.md)
+
+- [x] Decide memory location.
+- [x] Define JSON schema.
+- [x] Store repo path or remote identity.
+- [x] Store provider.
+- [x] Store remote name.
+- [x] Store target branches.
+- [x] Store temp branch prefix.
+- [x] Store branch-specific notes.
+- [x] Define plain-English memory inspection flow.
+- [x] Define plain-English memory update flow.
+- [x] Define plain-English stale memory removal flow.
+- [x] Add helper scripts only if they reduce error-prone JSON editing.
 
 Example memory shape:
 
 ```json
 {
   "repos": {
-    "/path/to/repo": {
-      "provider": "gitea",
+    "https://github.com/example-org/example-repo": {
+      "provider": "github",
       "remote": "origin",
+      "remoteUrl": "git@github.com:example-org/example-repo.git",
+      "repoRoot": "/path/to/example-repo",
+      "host": "github.com",
+      "repoPath": "example-org/example-repo",
+      "namespace": "example-org",
+      "owner": "example-org",
+      "repoName": "example-repo",
       "targetBranches": ["release/dev", "customer/dev", "main"],
       "tempPrefix": "temp-",
       "branchNotes": {
@@ -172,35 +192,39 @@ Example memory shape:
 
 Purpose: generalize the current instructions into a safe branch propagation procedure.
 
-- [ ] Trigger from workflow-named requests such as "propagate-env this commit" or "propagate-env the current staged changes with prefix `temp-TICKET-123-short-description`."
-- [ ] Identify source changes from commit, commit range, or working tree.
-- [ ] Inspect Git status before modifying anything.
-- [ ] Read configured target branches from memory.
-- [ ] Fetch refs when possible.
-- [ ] For each target branch, create a separate temp branch from that target branch.
-- [ ] Apply source change independently to each temp branch.
-- [ ] Resolve conflicts while preserving target-branch differences.
-- [ ] Commit adapted changes.
-- [ ] Run verification appropriate to touched files.
-- [ ] Push only branches that pass verification.
-- [ ] Generate PR/compare URL only after push succeeds.
-- [ ] Report push-pending URLs separately when push is unavailable.
-- [ ] Ask whether to clean up temp branches after PRs are raised.
-- [ ] Record per-branch evidence in the progress log.
+Detailed notes: [phases/phase-6-propagation-workflow.md](/mnt/extra/Git/propagate-skill/phases/phase-6-propagation-workflow.md)
+
+- [x] Trigger from workflow-named requests such as "propagate-env this commit" or "propagate-env the current staged changes with prefix `temp-TICKET-123-short-description`."
+- [x] Identify source changes from commit, commit range, or working tree.
+- [x] Inspect Git status before modifying anything.
+- [x] Read configured target branches from memory.
+- [x] Fetch refs when possible.
+- [x] For each target branch, create a separate temp branch from that target branch.
+- [x] Apply source change independently to each temp branch.
+- [x] Resolve conflicts while preserving target-branch differences.
+- [x] Commit adapted changes.
+- [x] Run verification appropriate to touched files.
+- [x] Push only branches that pass verification.
+- [x] Generate PR/compare URL only after push succeeds.
+- [x] Report push-pending URLs separately when push is unavailable.
+- [x] Ask whether to clean up temp branches after PRs are raised.
+- [x] Record per-branch evidence in the progress log.
 
 ## Phase 7: Cleanup Workflow
 
 Purpose: make temporary branch cleanup safe, explicit, and plain-English driven.
 
-- [ ] Trigger from user requests such as "remove the temp branches" or from the post-PR cleanup prompt.
-- [ ] Agent lists matching local temp branches.
-- [ ] Agent lists matching remote temp branches.
-- [ ] Ask for confirmation before deletion.
-- [ ] Support local-only cleanup.
-- [ ] Support remote cleanup.
-- [ ] Refuse to delete branches that do not match configured temp prefix.
-- [ ] Record cleanup result in progress log.
-- [ ] Keep the user interaction in plain English.
+Detailed notes: [phases/phase-7-cleanup-workflow.md](/mnt/extra/Git/propagate-skill/phases/phase-7-cleanup-workflow.md)
+
+- [x] Trigger from user requests such as "remove the temp branches" or from the post-PR cleanup prompt.
+- [x] Agent lists matching local temp branches.
+- [x] Agent lists matching remote temp branches.
+- [x] Ask for confirmation before deletion.
+- [x] Support local-only cleanup.
+- [x] Support remote cleanup.
+- [x] Refuse to delete branches that do not match configured temp prefix.
+- [x] Record cleanup result in progress log.
+- [x] Keep the user interaction in plain English.
 
 ## Phase 8: Test Repositories
 
@@ -267,6 +291,12 @@ Use this table while working.
 | Date | Phase | Change | Evidence | Result | Next Step |
 | --- | --- | --- | --- | --- | --- |
 | TBD | Baseline | Establish current process | TBD | TBD | TBD |
+| 2026-08-30 | Phase 2 | Added repository structure, references, schema, scripts, tests, README, and changelog. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review Phase 2 content and decide when to make the repo public. |
+| 2026-08-31 | Phase 3 | Added plain-English setup flow, repo inspection helper, memory writer helper, docs, and tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review setup flow and proceed to provider URL details. |
+| 2026-08-31 | Phase 4 | Added normalized provider detection docs and expanded URL generation tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review provider behavior and proceed to the memory model. |
+| 2026-08-31 | Phase 5 | Added memory model docs, schema identity fields, read/write/remove helpers, and memory tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review memory behavior and proceed to propagation workflow. |
+| 2026-08-31 | Phase 6 | Added propagation workflow docs, source inspection helper, planning helper, and tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review propagation workflow and proceed to cleanup workflow. |
+| 2026-08-31 | Phase 7 | Added cleanup workflow docs, dry-run-first cleanup helper, and local/remote cleanup tests. | `node test/run-tests.mjs` | Passed: helper script tests report `All tests passed.` | Review cleanup workflow and proceed to test repositories. |
 
 ## Open Decisions
 
