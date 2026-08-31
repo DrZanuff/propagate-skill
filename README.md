@@ -86,18 +86,6 @@ Each target branch must start from its own original branch or freshest safe remo
 
 This is the main behavior the workflow protects.
 
-## Current Status
-
-- Phase 0 complete: scope and baseline documented.
-- Phase 1 complete: generic workflow instructions created.
-- Phase 2 complete except publication: repository structure, references, schema, scripts, tests, README, and changelog.
-- Phase 3 complete: plain-English setup flow documented and backed by setup helper scripts.
-- Phase 4 complete: provider detection and URL generation documented and tested.
-- Phase 5 complete: memory model, schema, and read/write/remove helpers documented and tested.
-- Phase 6 complete: propagation workflow documented with source inspection and non-destructive planning helpers.
-- Phase 7 complete: cleanup workflow documented with dry-run-first local and remote branch cleanup helper.
-- Phase 8 complete for GitHub scope: public stress-test repo created and exercised; GitLab/Gitea are deferred.
-
 ## GitHub Stress-Test Repository
 
 The current public GitHub fixture is:
@@ -106,8 +94,3 @@ The current public GitHub fixture is:
 https://github.com/DrZanuff/propagate-stress-test
 ```
 
-Phase 8 evidence is documented in:
-
-```text
-phases/phase-8-test-repositories.md
-```
